@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Muro Filosófico Digital 🧠</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f9;
+      margin: 0; padding: 20px;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .phrase {
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      color: #555;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background: #3498db;
+    }
+    .reflections, .questions {
+      margin-top: 25px;
+    }
+    .item {
+      background: #eaf0f7;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Muro Filosófico Digital 🧠</h1>
+    <p><em>"Piensa, luego escribe"</em></p>
+  </header>
+
+  <div class="container">
+    <div class="phrase" id="phraseDisplay">"La vida sin reflexión no vale la pena." – Sócrates</div>
+    <button onclick="newPhrase()">Mostrar otra frase</button>
+
+    <form id="questionForm">
+      <label for="questionInput">Haz tu pregunta filosófica:</label>
+      <input type="text" id="questionInput" required placeholder="Escribe tu pregunta aquí..." />
+      <button type="submit">Enviar pregunta</button>
+    </form>
+
+    <div class="questions">
+      <h3>Preguntas recibidas:</h3>
+      <div id="questionsList"></div>
+    </div>
+
+    <form id="reflectionForm">
+      <label for="reflectionInput">Deja tu reflexión:</label>
+      <textarea id="reflectionInput" rows="4" required placeholder="Escribe tu reflexión aquí..."></textarea>
+      <button type="submit">Enviar reflexión</button>
+    </form>
+
+    <div class="reflections">
+      <h3>Reflexiones compartidas:</h3>
+      <div id="reflectionsList"></div>
+    </div>
+  </div>
+
+  <footer>
+    Proyecto Muro Filosófico Digital - Fomenta el pensamiento crítico
+  </footer>
+
+  <script>
+    const phrases = [
+      '"La vida sin reflexión no vale la pena." – Sócrates',
+      '"Pienso, luego existo." – René Descartes',
+      '"Conócete a ti mismo." – Sócrates',
+      '"La felicidad no es algo hecho. Viene de tus propias acciones." – Dalai Lama',
+      '"El hombre es la medida de todas las cosas." – Protágoras',
+    ];
+
+    function newPhrase() {
+      const idx = Math.floor(Math.random() * phrases.length);
+      document.getElementById('phraseDisplay').textContent = phrases[idx];
+    }
+
+    // Manejo de preguntas y reflexiones con almacenamiento local
+    const questionForm = document.getElementById('questionForm');
+    const questionInput = document.getElementById('questionInput');
+    const questionsList = document.getElementById('questionsList');
+
+    const reflectionForm = document.getElementById('reflectionForm');
+    const reflectionInput = document.getElementById('reflectionInput');
+    const reflectionsList = document.getElementById('reflectionsList');
+
+    // Cargar datos de localStorage
+    let questions = JSON.parse(localStorage.getItem('questions')) || [];
+    let reflections = JSON.parse(localStorage.getItem('reflections')) || [];
+
+    function renderList() {
+      questionsList.innerHTML = questions.map(q => `<div class="item">${q}</div>`).join('');
+      reflectionsList.innerHTML = reflections.map(r => `<div class="item">${r}</div>`).join('');
+    }
+
+    questionForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const q = questionInput.value.trim();
+      if(q){
+        questions.unshift(q);
+        if (questions.length > 20) questions.pop(); // Limitar a últimas 20 preguntas
+        localStorage.setItem('questions', JSON.stringify(questions));
+        renderList();
+        questionInput.value = '';
+      }
+    });
+
+    reflectionForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const r = reflectionInput.value.trim();
+      if(r){
+        reflections.unshift(r);
+        if (reflections.length > 20) reflections.pop();
+        localStorage.setItem('reflections', JSON.stringify(reflections));
+        renderList();
+        reflectionInput.value = '';
+      }
+    });
+
+    renderList();
+  </script>
+</body>
+</html>
