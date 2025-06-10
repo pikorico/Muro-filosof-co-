@@ -4,173 +4,198 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Muro Filosófico Digital 🧠</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f4f9;
-      margin: 0; padding: 20px;
-      color: #333;
+      font-family: 'Ubuntu', sans-serif;
+      background: linear-gradient(to bottom right, #f0f4ff, #e6f7f1);
+      margin: 0; padding: 0;
+      color: #222;
     }
+
     header {
+      background-color: #4a90e2;
+      color: white;
+      padding: 30px 20px;
       text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+
+    .container {
+      max-width: 750px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .section {
       margin-bottom: 30px;
     }
-    h1 {
-      font-size: 2.5rem;
-      color: #2c3e50;
+
+    .card {
+      background-color: #f9fafc;
+      border-left: 5px solid #4a90e2;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
     }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-    .phrase {
-      font-style: italic;
-      margin-bottom: 20px;
-      font-size: 1.2rem;
-      color: #555;
-    }
+
     label {
       font-weight: bold;
-      margin-top: 15px;
       display: block;
-    }
-    textarea, input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 6px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      resize: vertical;
-    }
-    button {
       margin-top: 15px;
-      padding: 10px 20px;
-      background: #2980b9;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4a90e2;
       color: white;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      padding: 10px 20px;
       font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
     }
+
     button:hover {
-      background: #3498db;
+      background-color: #3c7fc0;
     }
-    .reflections, .questions {
-      margin-top: 25px;
-    }
-    .item {
-      background: #eaf0f7;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
+
     footer {
       text-align: center;
-      margin-top: 40px;
-      color: #777;
       font-size: 0.9rem;
+      color: #666;
+      padding: 20px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .container { margin: 15px; padding: 15px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Muro Filosófico Digital 🧠</h1>
-    <p><em>"Piensa, luego escribe"</em></p>
-  </header>
 
-  <div class="container">
-    <div class="phrase" id="phraseDisplay">"La vida sin reflexión no vale la pena." – Sócrates</div>
+<header>
+  <h1>Muro Filosófico Digital 🧠</h1>
+  <p>"Piensa, luego escribe"</p>
+</header>
+
+<div class="container">
+
+  <div class="section">
+    <div class="card" id="phraseDisplay">
+      "La vida sin reflexión no vale la pena." – Sócrates
+    </div>
     <button onclick="newPhrase()">Mostrar otra frase</button>
+  </div>
 
-    <form id="questionForm">
-      <label for="questionInput">Haz tu pregunta filosófica:</label>
-      <input type="text" id="questionInput" required placeholder="Escribe tu pregunta aquí..." />
-      <button type="submit">Enviar pregunta</button>
-    </form>
+  <div class="section">
+    <label for="questionInput">Haz tu pregunta filosófica:</label>
+    <input type="text" id="questionInput" placeholder="¿Qué es la libertad?">
+    <button onclick="addQuestion()">Enviar pregunta</button>
 
-    <div class="questions">
-      <h3>Preguntas recibidas:</h3>
+    <div class="section">
+      <h3>🗨️ Preguntas recibidas:</h3>
       <div id="questionsList"></div>
     </div>
+  </div>
 
-    <form id="reflectionForm">
-      <label for="reflectionInput">Deja tu reflexión:</label>
-      <textarea id="reflectionInput" rows="4" required placeholder="Escribe tu reflexión aquí..."></textarea>
-      <button type="submit">Enviar reflexión</button>
-    </form>
+  <div class="section">
+    <label for="reflectionInput">Deja tu reflexión:</label>
+    <textarea id="reflectionInput" rows="4" placeholder="Tu reflexión sobre la vida, el amor, el tiempo..."></textarea>
+    <button onclick="addReflection()">Enviar reflexión</button>
 
-    <div class="reflections">
-      <h3>Reflexiones compartidas:</h3>
+    <div class="section">
+      <h3>💭 Reflexiones compartidas:</h3>
       <div id="reflectionsList"></div>
     </div>
   </div>
 
-  <footer>
-    Proyecto Muro Filosófico Digital - Fomenta el pensamiento crítico
-  </footer>
+</div>
 
-  <script>
-    const phrases = [
-      '"La vida sin reflexión no vale la pena." – Sócrates',
-      '"Pienso, luego existo." – René Descartes',
-      '"Conócete a ti mismo." – Sócrates',
-      '"La felicidad no es algo hecho. Viene de tus propias acciones." – Dalai Lama',
-      '"El hombre es la medida de todas las cosas." – Protágoras',
-    ];
+<footer>
+  Proyecto educativo - Liceo Muro Filosófico Digital © 2025
+</footer>
 
-    function newPhrase() {
-      const idx = Math.floor(Math.random() * phrases.length);
-      document.getElementById('phraseDisplay').textContent = phrases[idx];
+<script>
+  const phrases = [
+    '"La vida sin reflexión no vale la pena." – Sócrates',
+    '"Pienso, luego existo." – René Descartes',
+    '"Conócete a ti mismo." – Sócrates',
+    '"La felicidad no es algo hecho. Viene de tus propias acciones." – Dalai Lama',
+    '"El hombre es la medida de todas las cosas." – Protágoras',
+    '"No hay camino hacia la verdad, la verdad es el camino." – Mahatma Gandhi'
+  ];
+
+  function newPhrase() {
+    const idx = Math.floor(Math.random() * phrases.length);
+    document.getElementById('phraseDisplay').textContent = phrases[idx];
+  }
+
+  function addQuestion() {
+    const qInput = document.getElementById('questionInput');
+    const qValue = qInput.value.trim();
+    if (qValue) {
+      const questions = JSON.parse(localStorage.getItem('questions')) || [];
+      questions.unshift(qValue);
+      if (questions.length > 20) questions.pop();
+      localStorage.setItem('questions', JSON.stringify(questions));
+      qInput.value = '';
+      renderQuestions();
     }
+  }
 
-    // Manejo de preguntas y reflexiones con almacenamiento local
-    const questionForm = document.getElementById('questionForm');
-    const questionInput = document.getElementById('questionInput');
-    const questionsList = document.getElementById('questionsList');
-
-    const reflectionForm = document.getElementById('reflectionForm');
-    const reflectionInput = document.getElementById('reflectionInput');
-    const reflectionsList = document.getElementById('reflectionsList');
-
-    // Cargar datos de localStorage
-    let questions = JSON.parse(localStorage.getItem('questions')) || [];
-    let reflections = JSON.parse(localStorage.getItem('reflections')) || [];
-
-    function renderList() {
-      questionsList.innerHTML = questions.map(q => `<div class="item">${q}</div>`).join('');
-      reflectionsList.innerHTML = reflections.map(r => `<div class="item">${r}</div>`).join('');
+  function addReflection() {
+    const rInput = document.getElementById('reflectionInput');
+    const rValue = rInput.value.trim();
+    if (rValue) {
+      const reflections = JSON.parse(localStorage.getItem('reflections')) || [];
+      reflections.unshift(rValue);
+      if (reflections.length > 20) reflections.pop();
+      localStorage.setItem('reflections', JSON.stringify(reflections));
+      rInput.value = '';
+      renderReflections();
     }
+  }
 
-    questionForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const q = questionInput.value.trim();
-      if(q){
-        questions.unshift(q);
-        if (questions.length > 20) questions.pop(); // Limitar a últimas 20 preguntas
-        localStorage.setItem('questions', JSON.stringify(questions));
-        renderList();
-        questionInput.value = '';
-      }
-    });
+  function renderQuestions() {
+    const questions = JSON.parse(localStorage.getItem('questions')) || [];
+    document.getElementById('questionsList').innerHTML =
+      questions.map(q => `<div class="card">${q}</div>`).join('');
+  }
 
-    reflectionForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const r = reflectionInput.value.trim();
-      if(r){
-        reflections.unshift(r);
-        if (reflections.length > 20) reflections.pop();
-        localStorage.setItem('reflections', JSON.stringify(reflections));
-        renderList();
-        reflectionInput.value = '';
-      }
-    });
+  function renderReflections() {
+    const reflections = JSON.parse(localStorage.getItem('reflections')) || [];
+    document.getElementById('reflectionsList').innerHTML =
+      reflections.map(r => `<div class="card">${r}</div>`).join('');
+  }
 
-    renderList();
-  </script>
+  renderQuestions();
+  renderReflections();
+</script>
+
 </body>
 </html>
+ 
